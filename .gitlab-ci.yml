@@ -1,0 +1,13 @@
+image: python:3.11
+
+stages:
+  - test
+
+before_script:
+  - pip install poetry
+  - poetry install
+
+test:
+  stage: test
+  script:
+    - poetry run pytest tests/
