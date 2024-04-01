@@ -1,13 +1,32 @@
 image: python:3.11
 
 stages:
+  - lint
+  - format
   - test
+  - display-string
+
+lint:
+  stage: lint
+  image: hadolint/hadolint
+  script:
+    - hadolint Dockerfile
 
 before_script:
   - pip install poetry
   - poetry install
 
+format:
+  stage: format
+  script:
+    - poetry run black --check .
+
 test:
   stage: test
   script:
     - poetry run pytest tests/
+
+display-string:
+  stage: display-string
+  script:
+    - poetry run python  kittens/__main__.py
